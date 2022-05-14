@@ -1,3 +1,3 @@
 from django.shortcuts import render
+from group.models import Group
 
-# Create your views here.
