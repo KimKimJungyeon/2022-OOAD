@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from grouplist.views import GroupListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('home/', GroupListView.as_view({'get': 'list', 'post': 'update'}))
 ]
