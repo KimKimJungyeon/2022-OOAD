@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+<style>
+    .calendar {
+    width: 70%;
+    margin: auto;
+    padding-bottom: 50px;
+}
+
+.calendar_header {
+    display: inline-block;
+}
+
+.ym-wrapper {
+    font-size: 35px;
+}
+
+.calendar_nav {
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #333333;
+}
+
+.nav-btn {
+    width: 28px;
+    height: 30px;
+    border: none;
+    font-size: 16px;
+    line-height: 34px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.go-today {
+    width: 80%;
+    border-left: 1px solid #333333;
+    border-right: 1px solid #333333;
+}
+
+.calendar_main{
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.days {
+    display: flex;
+    margin: 25px 0 10px;
+}
+
+.day {
+    width: calc(100% / 7);
+    text-align: center;
+    transition: all .3s;
+}
+
+.dates {
+    display: flex;
+    flex-flow: row wrap;
+    border: 1px solid #333333;
+}
+
+.date {
+    cursor: pointer;
+    width: calc(69% / 7);
+    padding: 5% 2%;
+    text-align: center;
+    border: 2px solid #333333;
+    transition: all .3s;
+}
+
+.day:nth-child(7n + 1),
+.date:nth-child(7n + 1) {
+    color: #D13E3E;
+}
+
+.day:nth-child(7n),
+.date:nth-child(7n) {
+    color: #396EE2;
+}
+
+.other {
+    color: rgba(88, 88, 88, 0.315) !important;
+}
+
+.today {
+    position: relative;
+    background-color: #ff1c1c96;
+}
+
+.selected{
+    background-color: black;
+    color: #ffffff !important;
+}
+</style>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OOAD Calendar</title>
+</head>
+<body>
+    <div style="text-align: center;">
+        <h2>모임 "{{group.name}}"의 페이지 입니다.</h2>
+    </div>
+    <div class="calendar">
+        <div class="calendar_header">
+            <div class="ym-wrapper">
+                <span class="year"></span>년
+                <span class="month"></span>월
+            </div>
+            <div class="calendar_nav">
+                <button class="nav-btn go-prev">&lt;</button>
+                <button class="nav-btn go-today">오늘</button>
+                <button class="nav-btn go-next">&gt;</button>
+            </div>
+        </div>
+        <div class="calendar_main">
+            <div class="days">
+                <div class="day">일</div>
+                <div class="day">월</div>
+                <div class="day">화</div>
+                <div class="day">수</div>
+                <div class="day">목</div>
+                <div class="day">금</div>
+                <div class="day">토</div>
+            </div>
+            <div class="dates"></div>
+        </div>
+    </div>
+    <script>
+        let date = new Date();
+
+        const renderCalender = () => {
+            const viewYear = date.getFullYear();
+            const viewMonth = date.getMonth();
+
+            document.querySelector('.year').textContent = `${viewYear}`;
+            document.querySelector('.month').textContent = `${viewMonth + 1}`;
+
+            const prevLast = new Date(viewYear, viewMonth, 0);
+            const thisLast = new Date(viewYear, viewMonth + 1, 0);
+
+            const PLDate = prevLast.getDate();
+            const PLDay = prevLast.getDay();
+
+            const TLDate = thisLast.getDate();
+            const TLDay = thisLast.getDay();
+
+            const prevDates = [];
+            const thisDates = [...Array(TLDate + 1).keys()].slice(1);
+            const nextDates = [];
+
+            if (PLDay !== 6) {
+                for (let i = 0; i < PLDay + 1; i++) {
+                    prevDates.unshift(PLDate - i);
+                }
+            }
+
+            for (let i = 1; i < 7 - TLDay; i++) {
+                nextDates.push(i);
+            }
+
+            const dates = prevDates.concat(thisDates, nextDates);
+            const firstDateIndex = dates.indexOf(1);
+            const lastDateIndex = dates.lastIndexOf(TLDate);
+
+            dates.forEach((date, i) => {
+                const condition = i >= firstDateIndex && i < lastDateIndex + 1 ?
+                    'this' :
+                    'other';
+                dates[i] = `<div class="date ${condition}">${date}</div>`;
+            });
+
+            document.querySelector('.dates').innerHTML = dates.join('');
+
+            const today = new Date();
+            if (viewMonth === today.getMonth() && viewYear === today.getFullYear()) {
+                for (let date of document.querySelectorAll('.this')) {
+                    if (+date.innerText === today.getDate()) {
+                        date.classList.add('today');
+                        break;
+                    }
+                }
+            }
+        };
+        renderCalender();
+        const prevMonth = () => {
+            date.setMonth(date.getMonth() - 1);
+            renderCalender();
+        };
+        const nextMonth = () => {
+            date.setMonth(date.getMonth() + 1);
+            renderCalender();
+        };
+        const goToday = () => {
+            date = new Date();
+            renderCalender();
+        };
+    </script>
+</body>
+</html>

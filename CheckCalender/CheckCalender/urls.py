@@ -1,23 +1,14 @@
-"""CheckCalender URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path
-from grouplist.views import GroupListView
+from grouplist.views import GroupListView,detail,password
+from schedule.views import schedulelist
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', GroupListView.as_view({'get': 'list', 'post': 'update'}))
+    path('home/', GroupListView.as_view({'get': 'list'}), name= "index"),
+    path('write/', GroupListView.as_view({'get': 'write'}), name = "write"),
+    path('update/', GroupListView.as_view({'post': 'update'}), name = 'update'),
+    path('password/<int:group_id>/', detail, name= "detail"),
+    path('passwordcheck/<int:group_id>/', password, name= "password"),
+    path('group/<int:group_id>/', schedulelist, name='group'),
 ]
