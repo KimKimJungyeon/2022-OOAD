@@ -29,14 +29,13 @@ class GroupListView(ModelViewSet):
         page = int(request.GET.get('page', 1))
         group_list = paginator.get_page(page)
 
-        return render(request, "home.html", {'title':'모임 일정잡기', 'group_list':group_list})
+        return render(request, "home.html", {'title':'모임 일정잡기', 'group_list':group_list}) 
 
     def write(self,request):
         return render(request, "write.html")
 
     def update(self, request):
         serializer = self.get_serializer(data=request.data)
-        print(serializer)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
         return HttpResponseRedirect(reverse('index'))
