@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <style>
     body {
-        background-color: #F5F1E9;
+        background-color: #F5F4F0;
     }
 
     #calendar {
@@ -34,6 +34,7 @@
         text-align: center;
         background-color: #FFFFFF;
         color: #787878;
+        cursor: pointer;
     }
 
     #calendar_content {
@@ -88,7 +89,46 @@
         float: left;
         width: 15%;
         border-radius: 50%;
+        cursor: pointer;
     }
+
+    #schedule_button {
+        width: 480px;
+        height: 30px;
+        text-align: left;
+        padding-bottom: 10px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #sbutton_shedule{
+        font-size: 1.1em;
+        height: 30px;
+        color : #FFFFFF;
+        text-align: center;
+        border : None;
+        padding-right: 5px;
+        padding-left: 5px;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 6px 6px 6px 6px;
+    }
+    #sbutton_group{
+        font-size: 1.1em;
+        height: 30px;
+        color : #FFFFFF;
+        text-align: center;
+        border : None;
+        padding-right: 5px;
+        padding-left: 5px;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 6px 6px 6px 6px;
+    }
+    #home_title {
+        text-align: center;
+        color : #000000;
+    }
+
 </style>
 <html lang="ko">
 
@@ -100,21 +140,33 @@
     <title>OOAD Calendar</title>
 </head>
 <body>
-    <div style="text-align: center;">
+    <div id = "home_title">
         <h2>모임 "{{group.name}}"의 페이지 입니다.</h2>
+    </div>
+    <div id = "schedule_button">
+        <button id="sbutton_shedule">
+            일정 목록
+        </button>
+        <button id="sbutton_group">
+            모임 정보
+        </button>
     </div>
     <div id="calendar">
         <div id="calendar_header"><i class="icon-chevron-left"></i>
             <h1></h1><i class="icon-chevron-right"></i>
         </div>
         <div id="calendar_weekdays"></div>
-        <div id="calendar_content"></div>
+        <div id="calendar_content" ></div>
     </div>
 </body>
 <script type="text/javascript">
-    $(function () {
+    $(
+    function () {
         function c() {
-            p(); var e = h(); var r = 0; var u = false;
+            p();
+            var e = h();
+            var r = 0;
+            var u = false;
             l.empty();
             while (!u) {
                 if (s[r] == e[0].weekday) {
@@ -134,15 +186,18 @@
             }
             var y = o[n - 1];
             a.css("background-color", y).find("h1").text(i[n - 1] + " " + t);
-            f.find("div").css("color", y); l.find(".today").css("background-color", y);
+            f.find("div").css("color", y);
+            l.find(".today").css("background-color", y);
+            sb.css("background-color", y);
+            sg.css("background-color", y);
+            ht.css("color", y);
             d()
         }
         function h() {
             var e = [];
             for (var r = 1; r < v(t, n) + 1; r++) {
                 e.push({ day: r, weekday: s[m(t, n, r)]
-                }
-                )
+                })
             }
             return e
         }
@@ -153,8 +208,11 @@
             }
         }
         function d() {
-            var t; var n = $("#calendar").css("width", e + "px");
-            n.find(t = "#calendar_weekdays, #calendar_content").css("width", e + "px").find("div").css({ width: e / 7 + "px", height: e / 7 + "px", "line-height": e / 7 + "px" });
+            var t;
+            var n = $("#calendar").css("width", e + "px");
+            n.find(t = "#calendar_weekdays, #calendar_content").css("width", e + "px").find("div").css({
+                width: e / 7 + "px", height: e / 7 + "px", "line-height": e / 7 + "px"
+            });
             n.find("#calendar_header").css({ height: e * (1 / 7) + "px" }).find('i[class^="icon-chevron"]').css("line-height", e * (1 / 7) + "px")
         }
         function v(e, t) {
@@ -178,9 +236,16 @@
         var t = 2013;
         var n = 9;
         var r = [];
-        var i = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"]; var s = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]; var o = ["#16a085", "#1abc9c", "#c0392b", "#27ae60", "#FF6860", "#f39c12", "#f1c40f", "#e67e22", "#2ecc71", "#e74c3c", "#d35400", "#2c3e50"]; var u = $("#calendar"); var a = u.find("#calendar_header");
+        var i = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+        var s = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        var o = ["#16a085", "#1abc9c", "#c0392b", "#27ae60", "#FF6860", "#f39c12", "#f1c40f", "#e67e22", "#2ecc71", "#e74c3c", "#d35400", "#2c3e50"];
+        var u = $("#calendar");
+        var a = u.find("#calendar_header");
         var f = u.find("#calendar_weekdays");
         var l = u.find("#calendar_content");
+        var sb = $("#sbutton_shedule");
+        var sg = $("#sbutton_group");
+        var ht = $("#home_title");
         b();
         c();
         a.find('i[class^="icon-chevron"]').on("click", function () { var e = $(this);
