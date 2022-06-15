@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<style>
+    #sbutton_shedule{
+        font-size: 1.1em;
+        height: 30px;
+        color : #FFFFFF;
+        text-align: center;
+        border : None;
+        padding-right: 5px;
+        padding-left: 5px;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 6px 6px 6px 6px;
+        background-color: #FF6860;
+    }
+    thead {
+        background-color:#cecece;
+    }
+
+    .content {
+            max-width:500px;
+            margin: auto;
+            padding:10px;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .board {
+            width: 100%
+        }
+
+        .even_bgcolor {
+            background-color:#e8efff;
+        }
+
+        .pagination {
+            display: flex;           
+        }
+
+        .current {
+            font-weight: bold;
+        }
+
+        a {
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .abutton {
+            background-color: #e6e6ff;
+            color: #7b7b7b;
+            font-size: small;
+        }
+
+</style>
+
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href= "https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+    </script>
+    <title>OOAD Calendar</title>
+</head>
+<body>
+    <h2>모임 "{{group.name}}"의 일정 목록 페이지 입니다.</h2>
+    <br>
+    <a id="sbutton_shedule" href= "{% url 'group_schedule_update' group.id %}">
+        일정 추가
+    </a>
+    <div style="height:280px;">
+            <table class="group">
+                <thead>
+                    <tr class="header">
+                        <th style="width:10%;"></th>
+                        <th style="width:70%">일정 설명</th>
+                        <th style="width:20%">일정 날짜</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if schedule_list %}
+                    {% for data in schedule_list %}
+                    <tr class="{% cycle '' 'even_bgcolor' %}">
+                        <td style="text-align:center;">{{ forloop.counter }}</td>
+                        <td>
+                            {{ data.memo }}
+                        </td>
+                        <td>
+                            {{ data.date}}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td>생성된 일정이 없습니다.</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div style="text-align:center">
+            <div class="pagination">
+            
+                <div style="width:35%; margin: 5px;">
+                {% if schedule_list.has_previous %}
+                    <a class="abutton" href="?page=1">맨 앞으로</a>
+                    <a class="abutton" href="?page={{ schedule_list.previous_page_number }}">이전</a>
+                {% endif %}
+                </div>
+
+                <div style="width:30%; margin: 5px;">
+                {% for page in schedule_list.paginator.page_range %}
+                    {% if page >= schedule_list.number|add:-2 and page <= schedule_list.number|add:2 %}
+                    <span class="{% if page == schedule_list.number %}current{% endif %}">
+                        <a href="?page={{ page }}">{{ page}}</a>
+                    </span>
+                    {% elif page >= schedule_list.number|add:-3 and page <= schedule_list.number|add:3 %}
+                        ..
+                    {% endif %}
+                {% endfor %}
+                </div>
+
+                <div style="width:35%; margin: 5px;">
+                {% if group_list.has_next %}
+                    <a class="abutton" href="?page={{ schedule_list.next_page_number }}">다음</a>
+                    <a class="abutton" href="?page={{ schedule_list.paginator.num_pages }}">맨 뒤로</a>
+                {% endif %}
+                </div>
+
+            </div>  
+        </div> 
+    </div>
+</body>
+</html>

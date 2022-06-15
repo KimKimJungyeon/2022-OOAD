@@ -1,13 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>OOAD Calendar</title>
 </head>
 <style type="text/css">
-	 	.header {
-            text-align: center;
-        }
         .content {
             max-width:500px;
             margin: auto;
@@ -43,41 +40,34 @@
 		}
     </style>
 <body>
-    <div class="header">
-        <h2> 모임 "{{group_name}}"의 비밀번호를 입력하세요</h2>
-    </div>
     <div class="content">
-		<form action="{% url 'password' group_id %}" method="get">
+		<form action="{% url 'group_schedule_update' group.id %}" method="post">
 		{% csrf_token %}
 
-        <table class="board_for_read">
+		<div style="text-align:right;padding: 5px;">
+			<input type="submit" value="저장">
+		</div>
+
+		<table class="board_for_read">
 			<tbody>
 				<tr>
-					<td class="td_title" style="text-align:center; width:20%;">패스워드</td>
+					<td class="td_title" style="text-align:center; width:20%;">일정 날짜</td>
 					<td style="padding:10px;">
-						<input type="text" name="password" id="title"/>
+						<input type="date" name="date" id="title"/>
 					</td>
-                    <td>
-						<input type="submit" value="입력">
+				</tr>
+				<tr>
+					<td class="td_title" style="text-align:center;">일정 설명</td>
+					<td style="padding:10px;">
+						<textarea name="memo" id="memo" rows="10"></textarea>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 		</form>
-		<table>
-			<tbody>
-				<tr>
-					<td>
-						{% if errors %}
-						<span style="color: red;">{{ errors }}</span>
-						{% endif %} 
-					</td>
-				</tr>
-			</tbody>
-		</table>
 
 		<div style="text-align:left;">
-			<a href="{% url 'index' %}">> Home</a>
+			<a href="{% url 'schedule_list' group.id %}">> 일정 확인 하러 돌아가기</a>
 		</div>
 
     </div>
