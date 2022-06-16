@@ -36,7 +36,6 @@ class ScheduleView(viewsets.ViewSet):
         paginator = Paginator(schedule, 10)
         page = int(request.GET.get('page', 1))
         queryset = paginator.get_page(page)
-        print(queryset)
         serializer = ScheduleSerializer(queryset, many=True)
 
         return render(request, 'schedule_list.html', {'group': group, 'schedule_list':serializer.data})

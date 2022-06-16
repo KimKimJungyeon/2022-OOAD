@@ -7,6 +7,7 @@
        max-width:500px;
        margin: auto;
        padding:10px;
+       text-align: center;
    }
 
    .board_for_read {
@@ -36,6 +37,18 @@
    .td_title {
        background-color: #d8d8d8
    }
+   #sbutton_group{
+        font-size: 1.1em;
+        height: 30px;
+        color : #FFFFFF;
+        text-align: center;
+        border : None;
+        padding-right: 5px;
+        padding-left: 5px;
+        border-radius: 6px 6px 6px 6px;
+        background-color: #9b9b9b;
+    }
+
 </style>
 <head>
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
@@ -50,6 +63,11 @@
     <div class="content">
 		<form action="{% url 'group_info' id %}" method="post">
             {% csrf_token %}
+            <div style = "text-align: left;">
+                <input type="submit" value="수정" style ="font-size: 1.1em; height: 30px; color : #FFFFFF; border : None;
+                padding-right: 5px; padding-left: 5px; margin: auto; cursor: pointer;
+                border-radius: 6px 6px 6px 6px; background-color: #555555;">
+            </div>
             <table class="board_for_read">
                 <tbody>
                     <tr>
@@ -72,14 +90,16 @@
                     </tr>
                     <tr>
                         <td class="td_title" style="text-align:center; width:20%;">모임 생성 시각</td>
-                        <td style="padding:10px;">
+                        <td style="padding:10px; text-align: left;">
                             {{creation_date}}
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <input type="submit" value="수정" style ="margin: auto">
         </form>
+        <a id="sbutton_group" href= "{% url 'group' id %}">
+            모임 페이지로
+        </a>    
     </div>
 </body>
 </html>
